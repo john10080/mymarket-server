@@ -17,6 +17,7 @@ export const userTypeDefs = `
     type Query {
       users: [User]
       user(uid: ID!): User
+      userCount: Int
     }
 
     type Mutation {
@@ -29,7 +30,6 @@ export const userTypeDefs = `
         birth_date: String!
         contact_number: String!
         address: String!
-        role: Int!
       ): User
 
       deleteUser(uid: ID!): [User]

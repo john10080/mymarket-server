@@ -13,12 +13,16 @@ const userResolvers = {
       const user = users.find((u) => u.id === id);
       return user
     },
+    userCount: async () => {
+      return User.count();
+    }
   },
   
   /**
    * Get Users with products
    */
   User: {
+    // Get products for a user
     products(parent) {
       return products.filter(
         (p) => p.userId === parent.id
