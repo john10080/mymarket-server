@@ -13,6 +13,3 @@ const { url } = await startStandaloneServer(server, {
 });
 
 console.log(`Server Running at: ${url}`);
-
-///// Query, Mutation
-//// typeDefs, resolvers

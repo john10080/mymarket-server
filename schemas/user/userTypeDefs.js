@@ -1,4 +1,6 @@
-export const userTypeDefs = `
+import { gql } from "apollo-server-express";
+
+export const userTypeDefs = gql`
     type User {
       uid: ID!
       email: String!
@@ -20,6 +22,12 @@ export const userTypeDefs = `
       userCount: Int
     }
 
+    type Auth {
+      isAuthenticated: Boolean
+      user: User
+      accessToken: String!
+    }
+
     type Mutation {
       createUser(
         uid: ID!
@@ -33,5 +41,7 @@ export const userTypeDefs = `
       ): User
 
       deleteUser(uid: ID!): [User]
+
+      loginUser(email: String!, password: String!): Auth!
     }
 `;

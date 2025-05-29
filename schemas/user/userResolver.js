@@ -28,7 +28,8 @@ const userResolvers = {
         (p) => p.userId === parent.id
       );
     }
-  }
+  },
+
 };
 
 export default userResolvers;
