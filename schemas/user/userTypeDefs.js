@@ -25,7 +25,8 @@ export const userTypeDefs = gql`
     type Auth {
       isAuthenticated: Boolean
       user: User
-      accessToken: String!
+      accessToken: String
+      code: Int!
     }
 
     type Mutation {

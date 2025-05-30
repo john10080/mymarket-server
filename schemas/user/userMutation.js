@@ -27,25 +27,34 @@ export const userMutation = {
 
     // Authenticate User
     loginUser: async (parent, args) => {
-      const user = await User.findOne({ where: {email: args.email} })
-
-      // User not found
-      if(!user.email) return "Invalid email or password"
       
-      //Check/compare the password hash
-      const valid = await bcrypt.compare(args.password, user.password)
+      try {
 
-      // invalid password
-      if(!valid) return "Invalid email or password"
+        // find user
+        const user = await User.findOne({ where: {email: args.email} });
 
-      const sessionId = generateSessionId(12).toUpperCase();
-      const refreshToken = generateRefreshToken(user);
-      const accessToken =  generateAccessToken(user);
+        // User not found
+        if(!user.email) return {isAuthenticated: false, user: user, accessToken: null, code: 403}
+        
+        //Check/compare the password hash
+        const valid = await bcrypt.compare(args.password, user.password)
 
-      // create the session
-      Session.create({id: sessionId, uid: user.uid, token: refreshToken})
-      
-      return {isAuthenticated: true, user: user, accessToken}
+        // invalid password
+        if(!valid) return {isAuthenticated: false, user: user, accessToken: null, code: 403}
+
+        const sessionId = generateSessionId(12).toUpperCase();
+        const refreshToken = generateRefreshToken(user);
+        const accessToken =  generateAccessToken(user);
+
+        // create the session
+        Session.create({id: sessionId, uid: user.uid, token: refreshToken})
+        
+        return { isAuthenticated: true, user: user, accessToken, code: 200 }
+
+      } catch (err) {
+        return { isAuthenticated: false, user: user, accessToken: null, code: 500 }
+      }
+
     }    
   },
 
